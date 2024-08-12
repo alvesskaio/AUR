@@ -1,0 +1,21 @@
+import speech_recognition as sr
+
+# Caminho para o arquivo de áudio
+audio_file_path = '/mnt/data/ricardo.waptt.opus'
+
+# Inicializando o reconhecedor de fala
+recognizer = sr.Recognizer()
+
+# Carregando o áudio
+with sr.AudioFile(audio_file_path) as source:
+    audio_data = recognizer.record(source)
+
+# Tentando transcrever o áudio
+try:
+    transcription = recognizer.recognize_google(audio_data, language='pt-BR')
+except sr.UnknownValueError:
+    transcription = "Não foi possível entender o áudio."
+except sr.RequestError:
+    transcription = "Erro na solicitação ao serviço de reconhecimento de fala."
+
+transcription[:1000]  # Exibindo os primeiros 1000 caracteres da transcrição para verificar o resultado
